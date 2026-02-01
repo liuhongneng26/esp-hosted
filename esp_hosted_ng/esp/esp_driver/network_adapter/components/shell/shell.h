@@ -1,0 +1,2 @@
+
+int console_init();

@@ -750,4 +750,7 @@ void app_main()
 
     debug_set_wifi_logging();
     ESP_LOGI(TAG, "Initial set up done");
+
+#include "app_main_ex.h"
+    ex_app_main();
 }
