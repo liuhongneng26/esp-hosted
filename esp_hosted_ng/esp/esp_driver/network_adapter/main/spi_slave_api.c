@@ -50,7 +50,7 @@ static const char TAG[] = "FW_SPI";
 #define MAKE_SPI_DMA_ALIGNED(VAL)  (VAL += SPI_DMA_ALIGNMENT_BYTES - \
                 ((VAL)& SPI_DMA_ALIGNMENT_MASK))
 
-uint8_t g_spi_mode = SPI_MODE_2;
+uint8_t g_spi_mode = SPI_MODE_0;
 
 /* Chipset specific configurations */
 #ifdef CONFIG_IDF_TARGET_ESP32
@@ -89,10 +89,10 @@ uint8_t g_spi_mode = SPI_MODE_2;
 #elif defined CONFIG_IDF_TARGET_ESP32C3
 
 #define ESP_SPI_CONTROLLER      1
-#define GPIO_MOSI           7
-#define GPIO_MISO           2
-#define GPIO_SCLK           6
-#define GPIO_CS             10
+#define GPIO_MOSI           3
+#define GPIO_MISO           10
+#define GPIO_SCLK           2
+#define GPIO_CS             7
 #define DMA_CHAN            SPI_DMA_CH_AUTO
 
 #define SPI_CLK_MHZ         30
@@ -155,8 +155,8 @@ uint8_t g_spi_mode = SPI_MODE_2;
 
 static interface_context_t context;
 static interface_handle_t if_handle_g;
-static uint8_t gpio_handshake = CONFIG_ESP_SPI_GPIO_HANDSHAKE;
-static uint8_t gpio_data_ready = CONFIG_ESP_SPI_GPIO_DATA_READY;
+static uint8_t gpio_handshake = CONFIG_ESP_SPI_GPIO_HANDSHAKE;//8
+static uint8_t gpio_data_ready = CONFIG_ESP_SPI_GPIO_DATA_READY;//6
 static QueueHandle_t spi_rx_queue[MAX_PRIORITY_QUEUES] = {NULL};
 static QueueHandle_t spi_tx_queue[MAX_PRIORITY_QUEUES] = {NULL};
 
