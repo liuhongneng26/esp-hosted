@@ -9,5 +9,5 @@ set(include_dirs
 idf_component_register(
     SRC_DIRS ${src_dirs}
     INCLUDE_DIRS ${include_dirs}
-    REQUIRES console PRIV_REQUIRES console espressif__iperf-cmd esp_driver_usb_serial_jtag
+    PRIV_REQUIRES esp_wifi nvs_flash mqtt wifi_provisioning espressif__qrcode console espressif__iperf-cmd
     )
