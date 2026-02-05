@@ -1,28 +1,11 @@
+#include "shell.h"
+#include "driver/usb_serial_jtag.h"
 #include "esp_console.h"
-#include "esp_system.h"
-#include "esp_log.h"
-#include "argtable3/argtable3.h"
+#include "esp_err.h"
 #include "sdkconfig.h"
+#include <stdio.h>
 
-static int free_mem(int argc, char **argv)
-{
-    printf("%"PRIu32"\n", esp_get_free_heap_size());
-    return 0;
-}
-
-static void register_cmd(void)
-{
-    const esp_console_cmd_t cmd =
-    {
-        .command = "free",
-        .help = "Get the current size of free heap memory",
-        .hint = NULL,
-        .func = &free_mem,
-    };
-    ESP_ERROR_CHECK( esp_console_cmd_register(&cmd) );
-}
-
-int console_init()
+int shell_init()
 {
     esp_console_repl_t *repl = NULL;
     esp_console_repl_config_t repl_config = ESP_CONSOLE_REPL_CONFIG_DEFAULT();
@@ -32,11 +15,19 @@ int console_init()
     repl_config.prompt = ">";
     repl_config.max_cmdline_length = 1024;
 
+#if defined(CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG)
+    if(!usb_serial_jtag_is_connected())
+    {
+        printf("JTAG NOT CONNECTED!\n");
+        return 0;
+    }
+#endif
+
     // repl_config.history_save_path = HISTORY_PATH;
 
     /* Register commands */
     esp_console_register_help_command();
-    register_cmd();
+    register_cmd_sys();
 
 #if defined(CONFIG_ESP_CONSOLE_UART_DEFAULT) || defined(CONFIG_ESP_CONSOLE_UART_CUSTOM)
     esp_console_dev_uart_config_t hw_config = ESP_CONSOLE_DEV_UART_CONFIG_DEFAULT();
@@ -55,5 +46,6 @@ int console_init()
 #endif
 
     ESP_ERROR_CHECK(esp_console_start_repl(repl));
+
     return 0;
 }

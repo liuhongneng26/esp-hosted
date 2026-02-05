@@ -1,0 +1,5 @@
+key,type,encoding,value
+storage,namespace,,
+restart_counter,data,i32,0
+ssid,data,string,""
+pass,data,string,""
