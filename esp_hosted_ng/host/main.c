@@ -23,6 +23,8 @@
 #include "esp_cfg80211.h"
 #include "esp_stats.h"
 
+MODULE_IMPORT_NS(VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver);
+
 #define HOST_GPIO_PIN_INVALID -1
 #define CONFIG_ALLOW_MULTICAST_WAKEUP 1
 
