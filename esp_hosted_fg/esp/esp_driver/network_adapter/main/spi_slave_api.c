@@ -64,9 +64,9 @@ static const char TAG[] = "SPI_DRIVER";
     #define DMA_CHAN               SPI_DMA_CH_AUTO
 #endif
 
-#if ESP_SPI_MODE==0
-#  error "SPI mode 0 at SLAVE is NOT supported"
-#endif
+// #if ESP_SPI_MODE==0
+// #  error "SPI mode 0 at SLAVE is NOT supported"
+// #endif
 /* SPI internal configs */
 #define SPI_BUFFER_SIZE            MAX_TRANSPORT_BUF_SIZE
 
