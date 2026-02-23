@@ -53,8 +53,8 @@ static void uart_select_task(void *arg)
     
     uart_vfs_dev_use_driver(UART_NUM_0);
 
-    uart_vfs_dev_port_set_rx_line_endings(UART_NUM_0, ESP_LINE_ENDINGS_CR);
-    uart_vfs_dev_port_set_tx_line_endings(UART_NUM_0, ESP_LINE_ENDINGS_CRLF);
+    uart_vfs_dev_port_set_rx_line_endings(UART_NUM_0, ESP_LINE_ENDINGS_LF);
+    uart_vfs_dev_port_set_tx_line_endings(UART_NUM_0, ESP_LINE_ENDINGS_LF);
 
     int fd;
     int i, n;
@@ -93,12 +93,12 @@ static void uart_select_task(void *arg)
             n = read(fd, &buf, 32);
             if (n > 0)
             {
-            for ( i = 0; i < n; i++ )
-            {
-                if (buf[i] == '\r')
-                    continue;
-                printf("%c", buf[i]);
-            }
+                for ( i = 0; i < n; i++ )
+                {
+                    // if (buf[i] == '\r')
+                    //     continue;
+                    printf("%c", buf[i]);
+                }
             }
             else
             {
@@ -119,10 +119,11 @@ static void uart_select_task(void *arg)
             for ( i = 0; i < n; i++ )
             {
                 c = buff_rd[i];
-                if (c == '\r')
-                    continue;
+                // if (c == '\r')
+                //     continue;
                 write(fd, &c, 1);
             }
+            fsync(fd);
         }
 
     }
