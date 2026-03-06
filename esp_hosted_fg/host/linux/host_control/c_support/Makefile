@@ -68,9 +68,10 @@ INCLUDE += -I$(DIR_COMPONENTS)/include
 INCLUDE += -I$(DIR_LINUX_PORT)/include
 INCLUDE += -I$(REPLXX_INC_PATH)
 INCLUDE += -I.
+INCLUDE += -I../../../../../../out/usr/local/include/
 
 # Set library path
-LIBPATH = -L$(LIB_DIR)
+LIBPATH = -L$(LIB_DIR) -L../../../../../../out/usr/local/lib/
 LIBS = -Wl,--whole-archive $(CONTROL_LIB) -Wl,--no-whole-archive
 
 # Check if replxx is installed by testing if the compiler can find the header
