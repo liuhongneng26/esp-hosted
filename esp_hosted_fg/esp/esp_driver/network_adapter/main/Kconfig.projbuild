@@ -496,7 +496,7 @@ menu "Example Configuration"
 	endmenu
 
 	config NETWORK_SPLIT_ENABLED
-		depends on !IDF_TARGET_ESP32C2 && !IDF_TARGET_ESP32C3
+		depends on !IDF_TARGET_ESP32C2
 		bool "Allow Network Split using packet port number"
 		default n
 		help
