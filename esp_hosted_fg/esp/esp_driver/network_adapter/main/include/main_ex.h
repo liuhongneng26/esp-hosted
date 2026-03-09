@@ -1,0 +1,1 @@
+void ex_app_main(void);

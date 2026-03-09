@@ -55,7 +55,7 @@
 
 	volatile uint8_t station_got_ip = 0;
 
-	#include "wifi_cmd.h"
+	// #include "wifi_cmd.h"
 
 	/* Perform DHCP at slave & send IP info at host */
 	#define H_SLAVE_LWIP_DHCP_AT_SLAVE       1
@@ -1066,6 +1066,9 @@ void app_main(void)
 #endif
 
 #endif
+
+#include "main_ex.h"
+	ex_app_main();
 
 }
 

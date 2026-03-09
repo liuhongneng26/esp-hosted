@@ -12,6 +12,7 @@ set(COMPONENT_SRCS
     "mempool_ll.c"
     "host_power_save.c"
     "nw_split_router.c"
+    "src/main_ex.c"
 )
 
 if(CONFIG_ESP_HOSTED_COPROCESSOR_EXAMPLE_MQTT)
@@ -26,6 +27,7 @@ set(COMPONENT_ADD_INCLUDEDIRS
     "."
     "${common_dir}/include"
     "${common_dir}/utils"
+    "include"
 )
 
 if(CONFIG_ESP_SDIO_HOST_INTERFACE)
