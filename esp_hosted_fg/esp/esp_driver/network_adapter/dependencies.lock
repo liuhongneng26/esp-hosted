@@ -1,10 +1,4 @@
 dependencies:
-  cmd_system:
-    dependencies: []
-    source:
-      path: /home/rock/esp32/esp-idf-v5.5.2/examples/system/console/advanced/components/cmd_system
-      type: local
-    version: '*'
   esp-qa/ping-cmd:
     component_hash: 1cec883d3fb4dd22fbbe1916528d3e322c0bf2497ec13ddecb36c3dd783f766a
     dependencies:
@@ -54,11 +48,10 @@ dependencies:
       type: idf
     version: 5.5.2
 direct_dependencies:
-- cmd_system
 - esp-qa/ping-cmd
 - esp-qa/wifi-cmd
 - espressif/iperf
 - espressif/iperf-cmd
-manifest_hash: 23b58899af2573009beb25db086f0099b4e6389407f4a3fe8dc86f60b45c83a6
+manifest_hash: 8e6abf3099a4a903f4f76edd68091725278a5a8ceb7902f440219bb1eb01bf5e
 target: esp32c3
 version: 2.0.0
