@@ -74,7 +74,7 @@ dependencies:
   idf:
     source:
       type: idf
-    version: 5.5.2
+    version: 6.0.0
 direct_dependencies:
 - espressif/button
 - espressif/console_cmd_ping
@@ -82,4 +82,4 @@ direct_dependencies:
 - idf
 manifest_hash: b03a6f9e81e66feedfa7b56aa7743e3fc182b147b6aea4dd9733f12605d60efa
 target: esp32c3
-version: 2.0.0
+version: 3.0.0

@@ -3,7 +3,6 @@
 #include "esp_system.h"
 #include "esp_log.h"
 #include "argtable3/argtable3.h"
-#include "hal/i2c_types.h"
 #include "sdkconfig.h"
 #include <stdio.h>
 

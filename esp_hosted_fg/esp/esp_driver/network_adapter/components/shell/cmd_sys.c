@@ -11,9 +11,9 @@
 int cmd_sys_free(int argc, char **argv)
 {
     uint32_t free_heap = esp_get_free_heap_size();
-    ESP_LOGI(TAG, "%lu, %lu", free_heap, free_heap/1024);
+    ESP_LOGI(TAG, "free: %lu, %lu; %lu", free_heap, free_heap/1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA));
     free_heap = esp_get_minimum_free_heap_size();
-    ESP_LOGI(TAG, "%lu, %lu", free_heap, free_heap/1024);
+    ESP_LOGI(TAG, "mini: %lu, %lu", free_heap, free_heap/1024);
     return 0;
 }
 
