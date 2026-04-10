@@ -1,0 +1,8 @@
+# ESP-IDF Partition Table for 4M single app
+# Name,   Type, SubType, Offset,  Size,   Flags
+# app align 64K(0x10000)
+bootloader,       bootloader,       primary,    0x0,     0x8000,
+partition_table,  partition_table,  primary,    0x8000,  0x1000,
+nvs,              data,             nvs,        0x9000,  0x6000,
+phy_init,         data,             phy,        0xf000,  0x1000,
+app,              app,              ota_0,      0x10000, 3M,
