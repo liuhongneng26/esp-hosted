@@ -59,7 +59,7 @@ esp_err_t gpio_master_init(void)
             gpio_glitch_filter_enable(gpio_init_list[i].filter_handle);
         }
 
-        ESP_LOGI(TAG, "[%d]GPIO%d init success: %s\n", i, gpio_init_list[i].pin, gpio_init_list[i].name);
+        ESP_LOGI(TAG, "[%d]GPIO%d init success: %s", i, gpio_init_list[i].pin, gpio_init_list[i].name);
     }
 
     return 0;
@@ -85,7 +85,7 @@ int peripherals_init()
         }
         else
         {
-            ESP_LOGI(TAG, "[%d]I2C%d init success\n", i, g_spi_target[i].port);
+            ESP_LOGI(TAG, "[%d]I2C%d init success", i, g_spi_target[i].port);
         }
     }
 
@@ -104,7 +104,7 @@ int peripherals_init()
         }
         else
         {
-            ESP_LOGI(TAG, "[%d]SPI%d init success: miso %d mosi %d clk %d\n", i, g_spi_target[i].port, g_spi_target[i].miso, g_spi_target[i].mosi, g_spi_target[i].clk);
+            ESP_LOGI(TAG, "[%d]SPI%d init success: miso %d mosi %d clk %d", i, g_spi_target[i].port, g_spi_target[i].miso, g_spi_target[i].mosi, g_spi_target[i].clk);
         }
     }
 
