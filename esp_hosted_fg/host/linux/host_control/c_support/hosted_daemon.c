@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <pthread.h>
 #include "nw_helper_func.h"
+#include "hosted_daemon_ipc.h"
 
 
 #define STA_INTERFACE                                     "ethsta0"
@@ -53,6 +54,9 @@ static uint8_t local_network_up = 0;
 
 static int run_in_foreground = 0;
 static const char *config_file = CONFIG_FILE;
+
+static daemon_ipc_ctx_t ipc_ctx;
+static int ipc_initialized = 0;
 
 static inline ctrl_cmd_t * CTRL_CMD_DEFAULT_REQ()
 {
@@ -134,6 +138,45 @@ static int event_cb(ctrl_cmd_t * app_event)
 			break;
 		}
 	}
+
+	/* Forward event to connected CLI clients */
+	if (ipc_initialized) {
+		char event_str[512];
+
+		switch(app_event->msg_id) {
+			case CTRL_EVENT_ESP_INIT:
+				snprintf(event_str, sizeof(event_str), "esp_init");
+				break;
+			case CTRL_EVENT_HEARTBEAT:
+				snprintf(event_str, sizeof(event_str), "heartbeat hb_num=%u",
+					app_event->u.e_heartbeat.hb_num);
+				break;
+			case CTRL_EVENT_STATION_CONNECTED_TO_AP:
+				snprintf(event_str, sizeof(event_str), "sta_connected ssid=%s channel=%d",
+					app_event->u.e_sta_conn.ssid, app_event->u.e_sta_conn.channel);
+				break;
+			case CTRL_EVENT_STATION_DISCONNECT_FROM_AP:
+				snprintf(event_str, sizeof(event_str), "sta_disconnected reason=%u",
+					app_event->u.e_sta_disconn.reason);
+				break;
+			case CTRL_EVENT_STATION_CONNECTED_TO_ESP_SOFTAP:
+				snprintf(event_str, sizeof(event_str), "softap_sta_connected");
+				break;
+			case CTRL_EVENT_STATION_DISCONNECT_FROM_ESP_SOFTAP:
+				snprintf(event_str, sizeof(event_str), "softap_sta_disconnected");
+				break;
+			case CTRL_EVENT_DHCP_DNS_STATUS:
+				snprintf(event_str, sizeof(event_str), "dhcp_dns_status dhcp_up=%d dns_up=%d",
+					app_event->u.dhcp_dns_status.dhcp_up,
+					app_event->u.dhcp_dns_status.dns_up);
+				break;
+			default:
+				snprintf(event_str, sizeof(event_str), "event_id=%u", app_event->msg_id);
+				break;
+		}
+		ipc_broadcast_event(&ipc_ctx, app_event->msg_id, event_str);
+	}
+
 	CLEANUP_CTRL_MSG(app_event);
 	return SUCCESS;
 }
@@ -278,6 +321,14 @@ static int init_app(void)
 
 	subscribe_events();
 
+	/* Initialize IPC server for hosted_cli */
+	if (ipc_server_init(&ipc_ctx) == SUCCESS) {
+		if (ipc_server_start(&ipc_ctx) == SUCCESS) {
+			ipc_initialized = 1;
+			LOG_MSG(LOG_INFO, "IPC server initialized");
+		}
+	}
+
 	app_init_done = 1;
 	LOG_MSG(LOG_INFO, "RPC at host is ready");
 	return 0;
@@ -292,6 +343,12 @@ static void cleanup_app(void)
 	LOG_MSG(LOG_INFO, "Cleaning up application");
 
 	unsubscribe_events();
+
+	/* Stop IPC server */
+	if (ipc_initialized) {
+		ipc_server_stop(&ipc_ctx);
+		ipc_initialized = 0;
+	}
 
 	control_path_platform_deinit();
 	deinit_hosted_control_lib();
