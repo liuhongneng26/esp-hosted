@@ -112,7 +112,7 @@ HOSTED_DAEMON_OBJS = hosted_daemon.o hosted_daemon_ipc.o $(COMMON_OBJS)
 
 hosted_daemon: ensure_libs hosted_daemon.out
 
-hosted_daemon.out: $(HOSTED_DAEMON_OBJS)
+hosted_daemon.out: hosted_daemon.o hosted_daemon_ipc.o test_utils.o nw_helper_func.o
 	$(CROSS_COMPILE)$(CC) $(CFLAGS) $(CFLAGS_SANITIZE) $(INCLUDE) $(LIBPATH) $^ $(LINKER) $(LIBS) -o $(@)
 
 hosted_cli: ensure_libs hosted_cli.out
