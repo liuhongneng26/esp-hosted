@@ -8,7 +8,8 @@ void gpio_hander(void *argc);
 
 struct gpio_init gpio_init_list[] = 
 {
-    {"led board",    LED_BOARD,     GPIO_MODE_INPUT_OUTPUT,     1, GPIO_PULLDOWN_ONLY,  GPIO_INTR_DISABLE},
+    {"led board",    LED_BOARD,     GPIO_MODE_INPUT_OUTPUT,     0, GPIO_PULLDOWN_ONLY,  GPIO_INTR_DISABLE},
+    {"led board",    LED_D5,     GPIO_MODE_INPUT_OUTPUT,     0, GPIO_PULLDOWN_ONLY,  GPIO_INTR_DISABLE},
     {"ket boot",    KEY_BOOT,      GPIO_MODE_INPUT,            0, GPIO_PULLUP_ONLY,    GPIO_INTR_NEGEDGE, gpio_hander, NULL, 1},
 };
 
