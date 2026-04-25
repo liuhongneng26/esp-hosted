@@ -51,6 +51,8 @@ void ex_app_main(void)
 
     ram_info();
 
+    peripherals_init();
+
     shell_init();
 
     ESP_LOGI(TAG, "Initial set up done heap %lu\n\n", esp_get_free_heap_size());
