@@ -356,6 +356,19 @@ hosted_l2_bridge filter_and_route_packet(void *frame_data, uint16_t frame_length
 
 	/* Check if the frame is a MAC broadcast */
 	if (ethhdr->dest.addr[0] & 0x01) {
+		if (lwip_ntohs(ethhdr->type) == ETHTYPE_IP)
+		{
+			struct ip_hdr *iphdr = (struct ip_hdr *)((u8_t *)frame_data + SIZEOF_ETH_HDR);
+			if (IPH_PROTO(iphdr) == IP_PROTO_UDP)
+			{
+				struct udp_hdr *udphdr = (struct udp_hdr *)((u8_t *)iphdr + IPH_HL(iphdr) * 4);
+				/* ONVIF discovery 给 host */
+				if (lwip_ntohs(udphdr->dest) == 3702 || lwip_ntohs(udphdr->src) == 3702)
+				{
+					return HOST_LWIP_BRIDGE;
+				}
+			}
+    	}
 		result = SLAVE_LWIP_BRIDGE;
 		return result;
 	}
