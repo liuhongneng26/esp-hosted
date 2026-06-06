@@ -15,6 +15,10 @@ set(COMPONENT_SRCS
     "src/main_ex.c"
 )
 
+if(CONFIG_ESP_HOSTED_COPROCESSOR_EXAMPLE_PEER_DATA)
+    list(APPEND COMPONENT_SRCS peer_data_example.c)
+endif()
+
 if(CONFIG_ESP_HOSTED_COPROCESSOR_EXAMPLE_MQTT)
     list(APPEND COMPONENT_SRCS example_mqtt_client.c)
 endif()
