@@ -26,6 +26,7 @@
 #include "esp_hosted_wifi_phy.h"
 #ifdef CONFIG_NETWORK_SPLIT_ENABLED
   #include "esp_check.h"
+  #include "esp_netif.h"
   #include "lwip/inet.h"
   #include "host_power_save.h"
   #ifdef CONFIG_ESP_HOSTED_COPROCESSOR_EXAMPLE_MQTT
@@ -2781,9 +2782,9 @@ static esp_err_t req_set_dhcp_dns_status(CtrlMsg *req, CtrlMsg *resp, void *priv
 		}
 
 		if (net_link_up) {
-			esp_netif_up(slave_sta_netif);
+			esp_netif_action_connected(slave_sta_netif, NULL, 0, NULL);
 		} else {
-			esp_netif_down(slave_sta_netif);
+			esp_netif_action_disconnected(slave_sta_netif, NULL, 0, NULL);
 		}
 	}
 

@@ -152,7 +152,8 @@ static esp_err_t protocomm_pserial_ctrl_req_handler(protocomm_t *pc,
 				data_len = len;
 				break;
 			default:
-				ESP_LOGE(TAG, "Invalid type found in the packet");
+				ESP_LOGE(TAG, "Invalid type found in the packet: type %x, len %d\n", type, in_len);
+				ESP_LOG_BUFFER_HEXDUMP(TAG, in, in_len, ESP_LOG_ERROR);
 				return ESP_FAIL;
 		}
 	}
